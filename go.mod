@@ -1,4 +1,4 @@
-module index
+module github.com/williamek00/gofiber-webapp
 
 go 1.21.6
 
