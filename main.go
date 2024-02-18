@@ -8,10 +8,9 @@ import (
 )
 
 func main() {
-	fromDb:= database.Init()
-	fmt.Println(fromDb,"frm db")
+	fromDb,_:= database.Db()
+	fmt.Println(fromDb,"main.go")
 	app := fiber.New()
-
 	router.SetupRouter(app)
 	app.Listen(":3000")
 }
