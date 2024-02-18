@@ -1,9 +1,11 @@
 package usermodel
 
 import (
+	"context"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"context"
+
 	// "log"
 	"learngo/db"
 )
@@ -19,8 +21,8 @@ type User struct {
 var db,_ = database.Db()
 var userCollection = db.Collection("admin")
 
-func GetUser() ([]string, error) {
-    var users []string
+func GetUser() ([]map[string]interface{}, error) {
+    var users []map[string]interface{}
     var ctx = context.TODO()
 
     filter := bson.D{{}}
@@ -36,11 +38,14 @@ func GetUser() ([]string, error) {
         if err := cursor.Decode(&user); err != nil {
             return nil, err
         }
-        data, marshalErr := bson.MarshalExtJSON(user, false, false)
-        if marshalErr != nil {
-            return nil, marshalErr
+        // Convert User struct to map[string]interface{}
+        userMap := map[string]interface{}{
+            "first_name": user.FirstName,
+            "last_name":  user.LastName,
+            "email":      user.Email,
+            "gender":     user.Gender,
         }
-        users = append(users, string(data))
+        users = append(users, userMap)
     }
 
     if err := cursor.Err(); err != nil {
