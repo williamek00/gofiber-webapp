@@ -1,10 +1,14 @@
 package router
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "learngo/handler"
+	userhandler "learngo/handler"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func SetupRouter(app *fiber.App) {
-    app.Get("/",userhandler.GetUser)
+	app.Get("/", userhandler.GetUsers)
+	app.Get("/user/:id", userhandler.GetUser)
+	app.Post("/user", userhandler.CreateUser)
+	app.Delete("user/:id", userhandler.DeleteUser)
 }
